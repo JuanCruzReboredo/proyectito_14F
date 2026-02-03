@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Salomé 💌</title>
+
+  <style>
+    :root {
+      --bg1:#0b1020;
+      --bg2:#1b2a4a;
+      --card:#ffffff12;
+      --txt:#eef2ff;
+      --muted:#c7d2fe;
+      --yes:#22c55e;
+    }
+
+    *{
+      box-sizing:border-box;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      background:
+        radial-gradient(1200px 600px at 20% 10%, #3b82f640, transparent),
+        radial-gradient(1000px 500px at 80% 90%, #a855f740, transparent),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
+      color: var(--txt);
+      padding: 24px;
+    }
+
+    .card{
+      width:min(720px, 100%);
+      background: var(--card);
+      border: 1px solid #ffffff1f;
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 20px 60px #00000055;
+      backdrop-filter: blur(10px);
+    }
+
+    h1{
+      margin:0 0 10px;
+      font-size: 28px;
+    }
+
+    p{
+      margin: 8px 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 16px;
+    }
+
+    .hero{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom: 14px;
+    }
+
+    .badge{
+      padding: 6px 10px;
+      border-radius:999px;
+      background:#ffffff14;
+      border:1px solid #ffffff1f;
+      font-size: 13px;
+    }
+
+    .question{
+      margin-top: 16px;
+      font-size: 22px;
+      color: var(--txt);
+    }
+
+    .buttons{
+      display:flex;
+      gap: 12px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    button{
+      border:0;
+      border-radius: 14px;
+      padding: 12px 18px;
+      font-size: 16px;
+      cursor: pointer;
+      min-width: 140px;
+      transition: transform .06s ease, filter .2s ease;
+    }
+
+    button:active{
+      transform: translateY(1px) scale(.99);
+    }
+
+    .yes{
+      background: var(--yes);
+      color:#06210f;
+      font-weight: 700;
+    }
+
+    .no{
+      background: #ffffff14;
+      color: var(--txt);
+      border:1px solid #ffffff2a;
+    }
+
+    .small{
+      margin-top: 14px;
+      font-size: 13px;
+      opacity: .9;
+    }
+
+    .result{
+      display:none;
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid #ffffff1f;
+      background: #0000001f;
+    }
+
+    .confetti{
+      position: fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      display:none;
+    }
+
+    .piece{
+      position:absolute;
+      width:10px;
+      height:14px;
+      border-radius:2px;
+      opacity:.9;
+      top:-20px;
+      animation: fall 1.6s linear forwards;
+    }
+
+    @keyframes fall{
+      to{
+        transform: translateY(120vh) rotate(360deg);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <div class="hero">
+      <div class="badge">💌 Invitación</div>
+      <div class="badge">📅 14 Feb</div>
+    </div>
+
+    <h1>Hola, Salomé 😊</h1>
+
+    <p>
+      Te quería decir algo simple: me encanta cómo la pasamos y me gustaría seguir
+      sumando momentos lindos con vos.
+    </p>
+
+    <p>
+      Así que… te tengo una propuesta:
+    </p>
+
+    <div class="question">
+      ¿Querés ir conmigo al teatro a ver <em>Company</em> de Fer Dente? 🎭
+    </div>
+
+    <div class="buttons">
+      <button class="yes" id="yesBtn">Sí 💚</button>
+      <button class="no" id="noBtn">No 🙈</button>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <p class="small">
+      *Cualquier respuesta es válida… en teoría 😌
+    </p>
+  </div>
+
+  <div class="confetti" id="confetti"></div>
+
+  <script>
+    const result = document.getElementById("result");
+    const confetti = document.getElementById("confetti");
+
+    function showResult(html){
+      result.innerHTML = html;
+      result.style.display = "block";
+      result.scrollIntoView({behavior:"smooth", block:"center"});
+    }
+
+    function launchConfetti(){
+      confetti.innerHTML = "";
+      confetti.style.display = "block";
+      for(let i=0;i<80;i++){
+        const p = document.createElement("div");
+        p.className = "piece";
+        p.style.left = Math.random()*100 + "vw";
+        p.style.background = `hsl(${Math.random()*360}, 90%, 60%)`;
+        p.style.animationDelay = (Math.random()*0.2) + "s";
+        confetti.appendChild(p);
+      }
+      setTimeout(()=> confetti.style.display="none", 1800);
+    }
+
+    document.getElementById("yesBtn").addEventListener("click", () => {
+      launchConfetti();
+      showResult(`
+        <strong>Yesss 💚</strong><br/>
+        Entonces queda oficial 🥂<br/>
+        Teatro para ver <em>Company</em>, y después tomar algo tranqui.<br/>
+        Me hace mucha ilusión compartirlo con vos.<br/>
+        <span style="opacity:.9">— Juan Cruz</span>
+      `);
+    });
+
+    document.getElementById("noBtn").addEventListener("click", () => {
+      showResult(`
+        <strong>Lástima… 😌</strong><br/>
+        Pero ya firmaste las condiciones.<br/>
+        <span style="opacity:.8">(Cláusula 14/02, sin posibilidad de rescisión)</span><br/>
+        <span style="opacity:.9">— Juan Cruz</span>
+      `);
+    });
+  </script>
+</body>
+</html>
